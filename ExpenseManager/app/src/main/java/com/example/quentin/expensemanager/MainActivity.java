@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         if (!checkDataBase()){
             //TODO: If no database in app, ask user to initialize it with a budget cycle length
+            mDBHelper = new SQLiteDBHelper(getApplicationContext());
         }
 
     }

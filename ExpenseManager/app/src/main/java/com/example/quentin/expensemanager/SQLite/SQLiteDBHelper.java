@@ -20,8 +20,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     private static final String EXPENSES_COLUMN_AMOUNT = "amount";
     private static final String EXPENSES_COLUMN_BALANCE = "balance";
 
+    private SQLiteDatabase mExpensesDB;
+
     public SQLiteDBHelper(Context context){
         super(context, context.getString(R.string.db_name), null, DATABASE_VERSION);
+        getWritableDatabase();
     }
 
 
