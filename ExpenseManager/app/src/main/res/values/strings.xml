@@ -5,6 +5,5 @@
 
     <string name="alert_title">New Budget Cycle</string>
     <string name="alert_message">Please enter the length of your budget cycle for app initialization</string>
-    <string name="alert_input_message">Input an integer please</string>
     <string name="alert_invalid_input">Please input a valid number of days</string>
 </resources>

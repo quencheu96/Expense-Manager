@@ -10,21 +10,27 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import okhttp3.OkHttpClient;
+
 public class MainActivity extends AppCompatActivity {
 
-    private final String DB_FULL_PATH = this.getString(R.string.db_path);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Stetho.initializeWithDefaults(this);
+        new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
         if (!checkDataBase()){
             final String reg = "^[0-9]*$";
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(getString(R.string.alert_title));
             alert.setMessage(getString(R.string.alert_message));
             final EditText input = new EditText(this);
-
-            input.setText(getString(R.string.alert_input_message));
 
             alert.setView(input);
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
         try {
-            checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH, null,
+            checkDB = SQLiteDatabase.openDatabase(getString(R.string.db_path), null,
                     SQLiteDatabase.OPEN_READONLY);
             checkDB.close();
         } catch (SQLiteException e) {
