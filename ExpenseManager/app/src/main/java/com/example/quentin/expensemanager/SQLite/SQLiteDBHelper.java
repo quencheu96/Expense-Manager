@@ -1,8 +1,8 @@
 package com.example.quentin.expensemanager.SQLite;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.quentin.expensemanager.R;
@@ -21,10 +21,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     private static final String EXPENSES_COLUMN_BALANCE = "balance";
 
     private SQLiteDatabase mExpensesDB;
-
+    private Context mContext;
     public SQLiteDBHelper(Context context){
         super(context, context.getString(R.string.db_name), null, DATABASE_VERSION);
-        getWritableDatabase();
+        mContext = context;
+        if (!checkDataBase()) {
+            getWritableDatabase();
+        }
     }
 
 
@@ -45,5 +48,18 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //TODO: Actually migrate database data over
+    }
+
+
+    private boolean checkDataBase() {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(mContext.getString(R.string.db_path), null,
+                    SQLiteDatabase.OPEN_READONLY);
+            checkDB.close();
+        } catch (SQLiteException e) {
+            // database doesn't exist yet.
+        }
+        return checkDB != null;
     }
 }
