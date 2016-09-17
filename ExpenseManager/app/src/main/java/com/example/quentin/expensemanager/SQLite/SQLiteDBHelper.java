@@ -33,7 +33,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        createSQLTable(db);
+        //Leave this blank, tables will be created manually
     }
 
     public void createSQLTable(SQLiteDatabase db){

@@ -4,6 +4,9 @@
     <string name="db_path">/data/data/com.example.quentin.expensemanager/databases/Expenses.db</string>
 
     <string name="alert_title">New Budget Cycle</string>
-    <string name="alert_message">Please enter the length of your budget cycle for app initialization</string>
-    <string name="alert_invalid_input">Please input a valid number of days</string>
+    <string name="alert_message">Please input start and end date for next cycle</string>
+    <string name="alert_button_message">Ok</string>
+
+    <string name="shared_preferences_cycle_start_date">start_date</string>
+    <string name="shared_preferences_cycle_end_date">end_date</string>
 </resources>
