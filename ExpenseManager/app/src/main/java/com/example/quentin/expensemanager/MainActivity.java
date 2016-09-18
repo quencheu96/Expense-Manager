@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.PopupWindow;
 
@@ -21,14 +24,22 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.account_analysis_button) Button accountAnalysisButton;
+    @BindView(R.id.account_management_button) Button accountManagementButton;
+    @BindView(R.id.transaction_overview_button) Button transactionOverviewButton;
+    @BindView(R.id.add_transaction_fab_button) FloatingActionButton addTransactionFabButton;
 
     SQLiteDBHelper mDBHelper;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         Stetho.initializeWithDefaults(this);
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
@@ -36,36 +47,39 @@ public class MainActivity extends AppCompatActivity {
 
         mDBHelper = new SQLiteDBHelper(getApplicationContext());
 
-        new Handler(  ).postDelayed(new Runnable() {
+        accountAnalysisButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                showPopup(MainActivity.this);
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AccountAnalysisActivity.class);
+                startActivity(intent);
             }
-        }, 1000 );
+        });
 
-        SharedPreferences sharedPrefs = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPrefsEditor = sharedPrefs.edit();
-        sharedPrefsEditor.apply();
-        if (sharedPrefs.contains(getString(R.string.shared_preferences_cycle_start_date)) && sharedPrefs.contains(getString(R.string.shared_preferences_cycle_end_date))){
-            Date currentDate = new Date();
-            Date startDate = new Date(sharedPrefs.getLong(getString(R.string.shared_preferences_cycle_start_date),0));
-            Date endDate = new Date(sharedPrefs.getLong(getString(R.string.shared_preferences_cycle_end_date),0));
-
-            if (currentDate.before(startDate) || currentDate.after(endDate)){
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.alert_title))
-                        .setMessage(getString(R.string.alert_message))
-                        .setNeutralButton(getString(R.string.alert_button_message), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                showPopup(MainActivity.this);
-                            }
-                        })
-
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
+        accountManagementButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AccountManagementActivity.class);
+                startActivity(intent);
             }
-        }
+        });
+
+        transactionOverviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TransactionOverviewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addTransactionFabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddTransactionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
 
