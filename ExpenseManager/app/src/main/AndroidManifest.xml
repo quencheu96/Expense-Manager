@@ -20,5 +20,6 @@
         <activity android:name=".AccountManagementActivity" />
         <activity android:name=".AccountAnalysisActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
