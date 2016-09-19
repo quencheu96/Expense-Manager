@@ -1,13 +1,9 @@
 package com.example.quentin.expensemanager;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,11 +14,10 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.PopupWindow;
 
+import com.example.quentin.expensemanager.CurrencyConverter.CurrencyConverter;
 import com.example.quentin.expensemanager.SQLite.SQLiteDBHelper;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.add_transaction_fab_button) FloatingActionButton addTransactionFabButton;
 
     SQLiteDBHelper mDBHelper;
+    CurrencyConverter mCurrencyConverter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -45,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
+        mCurrencyConverter= new CurrencyConverter(this);
         mDBHelper = new SQLiteDBHelper(getApplicationContext());
 
         accountAnalysisButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
 
     }

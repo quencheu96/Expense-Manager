@@ -7,11 +7,13 @@
     <string name="alert_message">Please input start and end date for next cycle</string>
     <string name="alert_button_message">Ok</string>
 
-    <string name="shared_preferences_cycle_start_date">start_date</string>
-    <string name="shared_preferences_cycle_end_date">end_date</string>
-
     <string name="account_analysis_activity">Account Analysis</string>
     <string name="account_management_activity">Account Management</string>
     <string name="add_transaction_activity">Add Transaction</string>
     <string name="transaction_overview_activity">Transaction Overview</string>
+
+    <string name="currency_CAD">CAD</string>
+
+    <string name="shared_preferences_currency_conversion_table">currency_conversion_table</string>
+    <string name="currency_tables">currency_tables</string>
 </resources>
