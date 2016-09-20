@@ -1,9 +1,7 @@
 package com.example.quentin.expensemanager.CurrencyConverter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.quentin.expensemanager.R;
 
@@ -34,7 +32,7 @@ public class CurrencyConverter {
         client = new OkHttpClient();
         mContext = context;
         SharedPreferences sharedPrefs = mContext
-                .getSharedPreferences(mContext.getString(R.string.shared_preferences_currency_conversion_table),mContext.MODE_PRIVATE);
+                .getSharedPreferences(mContext.getString(R.string.shared_preferences_currency),mContext.MODE_PRIVATE);
         mCurrencyTables = sharedPrefs.getString(mContext.getString(R.string.currency_tables),"");
         saveCurrencyConversionTables();
 
@@ -56,7 +54,7 @@ public class CurrencyConverter {
                 mCurrencyTables = response.body().string();
 
                 SharedPreferences sharedPrefs = mContext
-                        .getSharedPreferences(mContext.getString(R.string.shared_preferences_currency_conversion_table),mContext.MODE_PRIVATE);
+                        .getSharedPreferences(mContext.getString(R.string.shared_preferences_currency),mContext.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString(mContext.getString(R.string.currency_tables), mCurrencyTables);
                 editor.apply();

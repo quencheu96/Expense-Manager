@@ -14,6 +14,42 @@
 
     <string name="currency_CAD">CAD</string>
 
-    <string name="shared_preferences_currency_conversion_table">currency_conversion_table</string>
+    <string name="shared_preferences_currency">currency_shared_prefs</string>
     <string name="currency_tables">currency_tables</string>
+
+    <string name="options">Options</string>
+
+    <string name="currency_usd">USD</string>
+    <string name="currency_jpy">JPY</string>
+    <string name="currency_bgn">BGN</string>
+    <string name="currency_czk">CZK</string>
+    <string name="currency_dkk">DKK</string>
+    <string name="currency_gbp">GBP</string>
+    <string name="currency_pln">PLN</string>
+    <string name="currency_ron">RON</string>
+    <string name="currency_sek">SEK</string>
+    <string name="currency_chf">CHF</string>
+    <string name="currency_nok">NOK</string>
+    <string name="currency_hrk">HRK</string>
+    <string name="currency_rub">RUB</string>
+    <string name="currency_try">TRY</string>
+    <string name="currency_aud">AUD</string>
+    <string name="currency_cad">CAD</string>
+    <string name="currency_cny">CNY</string>
+    <string name="currency_hkd">HKD</string>
+    <string name="currency_idr">IDR</string>
+    <string name="currency_ils">ILS</string>
+    <string name="currency_inr">INR</string>
+    <string name="currency_krw">KRW</string>
+    <string name="currency_mxn">MXN</string>
+    <string name="currency_myr">MYR</string>
+    <string name="currency_nzd">NZD</string>
+    <string name="currency_php">PHP</string>
+    <string name="currency_sgd">SGD</string>
+    <string name="currency_thb">THB</string>
+    <string name="currency_zar">ZAR</string>
+
+    <string name="default_currency">Default Currency: </string>
+    <string name="default_currency_index">default_currency_index</string>
+
 </resources>
