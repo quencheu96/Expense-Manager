@@ -3,6 +3,7 @@ package com.example.quentin.expensemanager.Realm;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Quentin on 2016-09-26.
@@ -10,11 +11,14 @@ import io.realm.RealmObject;
 
 public class Transaction extends RealmObject {
 
+    @PrimaryKey
+    private int mId;
+
     private String mCurrency;
     private String mNotes;
     private double mAmount;
     private Date mDate;
-    private int mId;
+    private String mAccountName;
 
     public Transaction(){
 
@@ -57,5 +61,14 @@ public class Transaction extends RealmObject {
 
     public void setDate(Date date) {
         this.mDate = date;
+    }
+
+
+    public String getAccountName() {
+        return mAccountName;
+    }
+
+    public void setmAccountName(String accountName) {
+        this.mAccountName = accountName;
     }
 }

@@ -60,4 +60,5 @@ public class Account extends RealmObject {
     public RealmList<Transaction> GetTranaactions(){
         return mTransactions;
     }
+
 }
