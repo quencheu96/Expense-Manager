@@ -69,13 +69,31 @@ public class RealmHelper {
         RealmQuery<Account> query = mRealm.where(Account.class);
         query.equalTo(mContext.getString(R.string.account_field_name),account);
         RealmResults<Account> result = query.findAll();
+        mRealm.beginTransaction();
         result.first().deleteFromRealm();
+        mRealm.commitTransaction();
     }
 
-    public void DeleteTransaction(String account){
+    public void DeleteTransaction(int id){
         RealmQuery<Transaction> query = mRealm.where(Transaction.class);
         RealmResults<Transaction> result = query.findAll();
         result.first().deleteFromRealm();
+
+        RealmQuery<Account> accountQuery = mRealm.where(Account.class);
+        RealmResults<Account> accountResult = accountQuery.findAll();
+
+        int length = accountResult.first().GetTranaactions().size();
+
+        for (Account account : accountResult){
+            for (int x = 0;x<length;x++){
+                if (accountResult.first().GetTranaactions().get(x).getId() == id){
+                    mRealm.beginTransaction();
+                    account.GetTranaactions().remove(x);
+                    mRealm.commitTransaction();
+                    break;
+                }
+            }
+        }
 
     }
 
