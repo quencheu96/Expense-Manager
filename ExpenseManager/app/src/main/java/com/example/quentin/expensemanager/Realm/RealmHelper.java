@@ -85,7 +85,6 @@ public class RealmHelper {
 
         int length = accountResult.first().GetTranaactions().size();
 
-
         for (int x = 0;x<length;x++){
             if (accountResult.first().GetTranaactions().get(x).getId() == id){
                 mRealm.beginTransaction();
