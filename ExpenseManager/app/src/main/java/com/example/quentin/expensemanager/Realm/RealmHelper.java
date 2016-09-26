@@ -22,23 +22,24 @@ public class RealmHelper {
     private Context mContext;
     private int transactionID = 0;
 
-    public RealmHelper(){
-
+    public RealmHelper(Context context){
+        mContext = context;
+        InitializeRealm();
     }
 
-    public void InitializeRealm(Context context){
-        mContext = context;
-        RealmConfiguration config = new RealmConfiguration.Builder(context)
-                .name(context.getString(R.string.realm_name))
+    public void InitializeRealm(){
+        RealmConfiguration config = new RealmConfiguration.Builder(mContext)
+                .name(mContext.getString(R.string.realm_name))
                 .build();
 
         mRealm = Realm.getInstance(config);
     }
 
     public void AddAccount(String name){
-        mRealm.beginTransaction();
-        Account account = mRealm.createObject(Account.class);
+        Account account = new Account();
         account.setName(name);
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(account);
         mRealm.commitTransaction();
     }
 
@@ -46,13 +47,14 @@ public class RealmHelper {
         RealmQuery<Account> query = mRealm.where(Account.class);
         query.equalTo(mContext.getString(R.string.account_field_name),account);
         RealmResults<Account> result = query.findAll();
-        mRealm.beginTransaction();
-        Transaction transaction = mRealm.createObject(Transaction.class);
+        Transaction transaction = new Transaction();
         transaction.setNotes(note);
         transaction.setCurrency(currency);
         transaction.setAmount(amount);
         transaction.setDate(date);
         transaction.setId(transactionID);
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(transaction);
         result.first().AddTransaction(transaction,mContext,new CurrencyConverter(mContext));
         mRealm.commitTransaction();
         transactionID++;

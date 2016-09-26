@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.example.quentin.expensemanager.CurrencyConverter.CurrencyConverter;
+import com.example.quentin.expensemanager.Realm.RealmHelper;
 import com.example.quentin.expensemanager.SQLite.SQLiteDBHelper;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
     SQLiteDBHelper mDBHelper;
+    RealmHelper mRealmHelper;
 
     CurrencyConverter mCurrencyConverter;
     private ArrayAdapter<String> mAdapter;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         mCurrencyConverter= new CurrencyConverter(this);
         mDBHelper = new SQLiteDBHelper(getApplicationContext());
+        mRealmHelper = new RealmHelper(getApplicationContext());
 
         accountAnalysisButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AddTransactionActivity.class);
                 startActivity(intent);
                 addTest(mDBHelper);
+                mRealmHelper.AddAccount("Checking");
+                mRealmHelper.AddTransaction("Checking","Stuff","CAD",4.74,new Date(0));
+
             }
         });
 
