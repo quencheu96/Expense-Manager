@@ -3,6 +3,7 @@
     <string name="db_name">Expenses.db</string>
     <string name="db_path">/data/data/com.example.quentin.expensemanager/databases/Expenses.db</string>
 
+    <string name="realm_name">ExpenseManager.realm</string>
     <string name="alert_title">New Budget Cycle</string>
     <string name="alert_message">Please input start and end date for next cycle</string>
     <string name="alert_button_message">Ok</string>
@@ -11,8 +12,6 @@
     <string name="account_management_activity">Account Management</string>
     <string name="add_transaction_activity">Add Transaction</string>
     <string name="transaction_overview_activity">Transaction Overview</string>
-
-    <string name="currency_CAD">CAD</string>
 
     <string name="shared_preferences_currency">currency_shared_prefs</string>
     <string name="currency_tables">currency_tables</string>
@@ -51,5 +50,7 @@
 
     <string name="default_currency">Default Currency: </string>
     <string name="default_currency_index">default_currency_index</string>
+
+    <string name="account_field_name">mName</string>
 
 </resources>

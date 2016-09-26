@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
     SQLiteDBHelper mDBHelper;
+
     CurrencyConverter mCurrencyConverter;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;

@@ -40,7 +40,7 @@ public class CurrencyConverter {
 
     private void saveCurrencyConversionTables() {
         Request request = new Request.Builder()
-                .url(URL + mContext.getString(R.string.currency_CAD))
+                .url(URL + mContext.getString(R.string.currency_cad))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -68,7 +68,10 @@ public class CurrencyConverter {
         }
         try {
             JSONObject jsonObject = new JSONObject(mCurrencyTables);
-            if (base.equals(DEFAULT_CURRENCY)){
+            if (base.equals(target)){
+                return amount;
+            }
+            else if (base.equals(DEFAULT_CURRENCY)){
                 double conversionRate = jsonObject.getJSONObject(RATES).getDouble(target);
                 return amount * conversionRate;
             }
