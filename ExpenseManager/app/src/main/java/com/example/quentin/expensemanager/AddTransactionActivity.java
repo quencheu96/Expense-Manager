@@ -9,6 +9,8 @@ import java.sql.Date;
 
 public class AddTransactionActivity extends AppCompatActivity {
 
+    //TODO: Change this activity into a dialog fragment so we can add to every activity instead
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
