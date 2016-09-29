@@ -1,7 +1,6 @@
 package com.example.quentin.expensemanager.Realm;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.example.quentin.expensemanager.CurrencyConverter.CurrencyConverter;
 import com.example.quentin.expensemanager.R;
@@ -17,48 +16,54 @@ import io.realm.annotations.PrimaryKey;
 public class Account extends RealmObject {
 
     @PrimaryKey
-    private String mName;
-    private RealmList<Transaction> mTransactions;
-    private double mBalance;
-    private double mOutgoing;
-    private double mIncoming;
+    private String name;
+    private RealmList<Transaction> transactions = new RealmList<Transaction>();
+    private double balance;
+    private double outgoing;
+    private double incoming;
+
+    public Account(String accountName){
+        name = accountName;
+    }
 
     public Account(){
 
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        this.mName = name;
+        this.name = name;
     }
 
-    public void AddTransaction(Transaction transaction, Context context, CurrencyConverter converter){
-        mTransactions.add(transaction);
-        UpdateAccount(context,converter);
+    public RealmList<Transaction> getTransactions(){
+        return transactions;
     }
 
-    public void UpdateAccount(Context context, CurrencyConverter converter){
-        double balance=0;
-        double outgoing=0;
-        double incoming =0;
-
-        String defaultCurrency = context.getString(R.string.default_currency);
-        for (Transaction transaction : mTransactions){
-            balance += converter.convertCurrencies(transaction.getCurrency(),defaultCurrency,transaction.getAmount());
-            if (transaction.getAmount()>0){
-                incoming += converter.convertCurrencies(transaction.getCurrency(),defaultCurrency,transaction.getAmount());
-            }
-            else{
-                outgoing += converter.convertCurrencies(transaction.getCurrency(),defaultCurrency,transaction.getAmount());
-            }
-        }
+    public double getBalance() {
+        return balance;
     }
 
-    public RealmList<Transaction> GetTranaactions(){
-        return mTransactions;
+    public double getOutgoing() {
+        return outgoing;
+    }
+
+    public double getIncoming() {
+        return incoming;
+    }
+
+    public void setIncoming(double incoming) {
+        this.incoming = incoming;
+    }
+
+    public void setOutgoing(double outgoing) {
+        this.outgoing = outgoing;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
 }

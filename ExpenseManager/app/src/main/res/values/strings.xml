@@ -51,6 +51,7 @@
     <string name="default_currency">Default Currency: </string>
     <string name="default_currency_index">default_currency_index</string>
 
-    <string name="account_field_name">mName</string>
+    <string name="account_field_name">name</string>
+    <string name="latest_transaction_id">latest_transaction_id</string>
 
 </resources>

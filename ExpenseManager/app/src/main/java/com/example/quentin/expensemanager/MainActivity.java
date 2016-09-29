@@ -89,15 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        mRealmHelper.AddAccount("Checking");
         addTransactionFabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddTransactionActivity.class);
-                startActivity(intent);
-                mRealmHelper.AddAccount("Checking");
                 mRealmHelper.AddTransaction("Checking","Stuff","CAD",4.74,new Date(0));
-
+                startActivity(intent);
             }
         });
 

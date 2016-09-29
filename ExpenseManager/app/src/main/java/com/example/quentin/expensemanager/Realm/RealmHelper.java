@@ -1,6 +1,7 @@
 package com.example.quentin.expensemanager.Realm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.example.quentin.expensemanager.CurrencyConverter.CurrencyConverter;
 import com.example.quentin.expensemanager.R;
@@ -20,11 +21,17 @@ public class RealmHelper {
 
     private Realm mRealm;
     private Context mContext;
-    private int transactionID = 0;
+    private int transactionID;
 
     public RealmHelper(Context context){
         mContext = context;
+
+        SharedPreferences sharedPrefs = mContext
+                .getSharedPreferences(mContext.getString(R.string.latest_transaction_id),mContext.MODE_PRIVATE);
+        transactionID = sharedPrefs.getInt(mContext.getString(R.string.latest_transaction_id),0);
+
         InitializeRealm();
+
     }
 
     public void InitializeRealm(){
@@ -36,10 +43,8 @@ public class RealmHelper {
     }
 
     public void AddAccount(String name){
-        Account account = new Account();
-        account.setName(name);
         mRealm.beginTransaction();
-        mRealm.copyToRealmOrUpdate(account);
+        mRealm.copyToRealmOrUpdate(new Account(name));
         mRealm.commitTransaction();
     }
 
@@ -47,17 +52,24 @@ public class RealmHelper {
         RealmQuery<Account> query = mRealm.where(Account.class);
         query.equalTo(mContext.getString(R.string.account_field_name),account);
         RealmResults<Account> result = query.findAll();
-        Transaction transaction = new Transaction();
-        transaction.setNotes(note);
-        transaction.setCurrency(currency);
-        transaction.setAmount(amount);
-        transaction.setDate(date);
-        transaction.setId(transactionID);
         mRealm.beginTransaction();
-        mRealm.copyToRealmOrUpdate(transaction);
-        result.first().AddTransaction(transaction,mContext,new CurrencyConverter(mContext));
+        Transaction transaction =  mRealm.copyToRealmOrUpdate(new Transaction(transactionID,currency,note,amount,date,account));
+        result.first().getTransactions().add(transaction);
+        result.first().setBalance(result.first().getBalance()+amount);
+        if (amount > 0) {
+            result.first().setOutgoing(result.first().getOutgoing() + amount);
+        }
+        else{
+            result.first().setIncoming(result.first().getIncoming() + amount);
+        }
         mRealm.commitTransaction();
         transactionID++;
+
+        SharedPreferences sharedPrefs = mContext
+                .getSharedPreferences(mContext.getString(R.string.latest_transaction_id),mContext.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putInt(mContext.getString(R.string.latest_transaction_id),transactionID);
+        editor.apply();
     }
 
     public Account GetAccount(String account){
@@ -85,12 +97,12 @@ public class RealmHelper {
 
         RealmResults<Account> accountResult = accountQuery.findAll();
 
-        int length = accountResult.first().GetTranaactions().size();
+        int length = accountResult.first().getTransactions().size();
 
         for (int x = 0;x<length;x++){
-            if (accountResult.first().GetTranaactions().get(x).getId() == id){
+            if (accountResult.first().getTransactions().get(x).getId() == id){
                 mRealm.beginTransaction();
-                accountResult.first().GetTranaactions().remove(x);
+                accountResult.first().getTransactions().remove(x);
                 mRealm.commitTransaction();
                 break;
             }

@@ -12,63 +12,72 @@ import io.realm.annotations.PrimaryKey;
 public class Transaction extends RealmObject {
 
     @PrimaryKey
-    private int mId;
+    private int id;
 
-    private String mCurrency;
-    private String mNotes;
-    private double mAmount;
-    private Date mDate;
-    private String mAccountName;
+    private String currency;
+    private String notes;
+    private double amount;
+    private Date date;
+    private String accountName;
+
+    public Transaction(int id, String currency, String notes, double amount, Date date, String accountName){
+        this.id = id;
+        this.currency = currency;
+        this.notes = notes;
+        this.amount = amount;
+        this.date = date;
+        this.accountName = accountName;
+    }
 
     public Transaction(){
 
     }
 
     public int getId() {
-        return mId;
+        return id;
     }
 
     public void setId(int id) {
-        this.mId = id;
+        this.id = id;
     }
     public String getCurrency() {
-        return mCurrency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        this.mCurrency = currency;
+        this.currency = currency;
     }
 
     public String getNotes() {
-        return mNotes;
+        return notes;
     }
 
     public void setNotes(String notes) {
-        this.mNotes = notes;
+        this.notes = notes;
     }
 
     public double getAmount() {
-        return mAmount;
+        return amount;
     }
 
     public void setAmount(double amount) {
-        this.mAmount = amount;
+        this.amount = amount;
     }
 
     public Date getDate() {
-        return mDate;
+        return date;
     }
 
     public void setDate(Date date) {
-        this.mDate = date;
+        this.date = date;
     }
 
 
     public String getAccountName() {
-        return mAccountName;
+        return accountName;
     }
 
-    public void setmAccountName(String accountName) {
-        this.mAccountName = accountName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 }
