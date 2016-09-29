@@ -24,9 +24,10 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.example.quentin.expensemanager.CurrencyConverter.CurrencyConverter;
-import com.example.quentin.expensemanager.SQLite.SQLiteDBHelper;
+import com.example.quentin.expensemanager.Realm.RealmHelper;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import java.sql.Date;
 
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.navigation_listview) ListView mDrawerList;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
-    SQLiteDBHelper mDBHelper;
+    RealmHelper mRealmHelper;
+
     CurrencyConverter mCurrencyConverter;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -52,13 +54,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Stetho.initializeWithDefaults(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
         new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
         mCurrencyConverter= new CurrencyConverter(this);
-        mDBHelper = new SQLiteDBHelper(getApplicationContext());
+        mRealmHelper = new RealmHelper(getApplicationContext());
 
         accountAnalysisButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        mRealmHelper.AddAccount("Checking");
         addTransactionFabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddTransactionActivity.class);
+                mRealmHelper.AddTransaction("Checking","Stuff","CAD",4.74,new Date(0));
                 startActivity(intent);
-                addTest(mDBHelper);
             }
         });
 
@@ -98,22 +104,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-    }
-
-
-    private void addTest(SQLiteDBHelper helper) {
-        System.out.println("ADDING SHIT");
-        helper.addExpense(Math.random() * 10, new Date(2012-1900,12,21), "random stuff");  //<-- this works
-        Cursor c = helper.getExpenses();
-        System.out.println("PAST EXPENSES");
-        // i guess i should build a helper for this stuff
-        int costIndex = c.getColumnIndex("amount");
-        int dateIndex = c.getColumnIndex("date");
-        int notesIndex = c.getColumnIndex("note");
-        c.moveToFirst();
-        while (c.moveToNext()) {
-            System.out.println("Bought " + c.getString(notesIndex) + " for $" + c.getDouble(costIndex) + " on " + c.getString(dateIndex));
-        }
     }
 
     @Override
